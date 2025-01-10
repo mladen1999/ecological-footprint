@@ -34,7 +34,9 @@ export default function Form() {
             <button type="submit">Prikaži rezultate</button>
         </form>
 
-        <div id="result" style="margin-top: 20px;"></div>
+        <div id="result" style="margin-top: 20px;">
+            <canvas id="result-chart" width="400" height="200"></canvas>
+        </div>
     `;
 
     formSection.querySelector('#eco-form').addEventListener('submit', (e) => {
@@ -49,6 +51,7 @@ export default function Form() {
 
         const result = calculateFootprint(data);
 
+        // Prikaz rezultata u tekstualnom obliku
         const resultDiv = formSection.querySelector('#result');
         resultDiv.innerHTML = `
             <h3>Rezultati:</h3>
@@ -56,7 +59,32 @@ export default function Form() {
             <p>Emisija zbog energije: <strong>${result.energy} kg CO₂</strong></p>
             <p>Emisija zbog ishrane: <strong>${result.food} kg CO₂</strong></p>
             <p>Ukupan ekološki otisak: <strong>${result.total} kg CO₂</strong></p>
+            <canvas id="result-chart" width="400" height="200"></canvas>
         `;
+
+        // Kreiranje grafikona pomoću Chart.js
+        const ctx = document.getElementById('result-chart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Transport', 'Energija', 'Ishrana'],
+                datasets: [{
+                    label: 'Ekološki otisak (kg CO₂)',
+                    data: [result.transport, result.energy, result.food],
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56'],
+                    borderColor: ['#ff6384', '#36a2eb', '#ffcd56'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
     });
 
     return formSection;
