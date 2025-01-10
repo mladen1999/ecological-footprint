@@ -8,10 +8,9 @@ export default function Home() {
         <button id="start-btn">Započnite</button>
     `;
 
-    // Dodavanje event listener-a za dugme "Započnite"
+    // Dodavanje event listener-a za navigaciju ka formi
     homeSection.querySelector('#start-btn').addEventListener('click', () => {
-        alert('Hvala što ste odlučili da započnete analizu!');
-        // Ovde možeš dodati navigaciju ka formi, npr: loadPage('form')
+        loadPage('form'); // Navigacija ka formi
     });
 
     return homeSection;

@@ -26,5 +26,9 @@ function loadPage(page) {
     }
 }
 
+// Dodavanje funkcije u globalni objekat
+window.loadPage = loadPage;
+
 // Učitavanje početne stranice
 loadPage('home');
+
